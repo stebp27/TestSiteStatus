@@ -2,9 +2,25 @@
 
 #Controlla se il pacchetto festival è installato
 installed=$(which festival)
+os=$(cat /etc/issue* | head -1 | cut -f 1 -d' ')
 if [[ -z "$installed" ]]
 then
-	sudo apt-get install festival
+	echo $os
+	if [[ $os = "Ubuntu" ]] || [[ $os = "Debian" ]]
+	then
+		sudo apt-get install festival
+	elif [[ $os = "Arch" ]]
+	then
+		pacman -S festival
+	elif [[ $os = "CentOS" ]]
+	then
+		yum install festival
+	elif [[ $os = "Fedora" ]]
+	then
+		dnf install festival
+	else
+		echo "You have to install the \"festival\" package for your DISTRO"
+	fi
 fi
 
 pattern_1="[www.][a-zA-Z0-9]{1,}\.[a-z]{2,4}"
