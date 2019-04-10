@@ -1,27 +1,8 @@
 #!/usr/bin/env bash
 
-#Controlla se il pacchetto festival è installato
-installedFestival=$(which festival)
-os=$(cat /etc/issue* | head -1 | cut -f 1 -d' ')
-if [[ -z "$installedFestival" ]]
-then
-	echo $os
-	if [[ $os = "Ubuntu" ]] || [[ $os = "Debian" ]]
-	then
-		sudo apt-get install festival
-	elif [[ $os = "Arch" ]]
-	then
-		pacman -S festival
-	elif [[ $os = "CentOS" ]]
-	then
-		yum install festival
-	elif [[ $os = "Fedora" ]]
-	then
-		dnf install festival
-	else
-		echo "You have to install the \"festival\" package for your DISTRO"
-	fi
-fi
+#Controlla se il necessario è installato
+
+~/SiteStatusScript/CheckDependencies/CheckDependencies.sh
 
 pattern_1="[www.][a-zA-Z0-9]{1,}\.[a-z]{2,4}"
 pattern_2="[a-zA-Z0-9]{1,}\.[a-z]{2,4}"
@@ -45,7 +26,6 @@ elif [ $code -ge 200 ] && [ $code -lt 300 ]
 then 
 	echo "$code"
 	message="Success"
-	ruby EmailRubySender.rb $2 $code
 	elif [ $code -ge 300 ] && [ $code -lt 400 ]
 then
 	echo "$code"
@@ -58,9 +38,9 @@ elif [ $code -ge 500 ] && [ $code -lt 600 ]
 then
 	echo "$code"
 	message="Server Error"
-	ruby EmailRubySender.rb $2 $code
+	ruby ~/SiteStatusScript/RubyScripts/EmailRubySender.rb $2 $code
 else
-	echo "There\'s something wrong"
+	echo "There's something wrong"
 fi
 
 #opzione -v
