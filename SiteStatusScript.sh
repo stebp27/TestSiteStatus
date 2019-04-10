@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 #Controlla se il pacchetto festival è installato
-installed=$(which festival)
+installedFestival=$(which festival)
 os=$(cat /etc/issue* | head -1 | cut -f 1 -d' ')
-if [[ -z "$installed" ]]
+if [[ -z "$installedFestival" ]]
 then
 	echo $os
 	if [[ $os = "Ubuntu" ]] || [[ $os = "Debian" ]]
@@ -45,7 +45,8 @@ elif [ $code -ge 200 ] && [ $code -lt 300 ]
 then 
 	echo "$code"
 	message="Success"
-elif [ $code -ge 300 ] && [ $code -lt 400 ]
+	ruby EmailRubySender.rb $2 $code
+	elif [ $code -ge 300 ] && [ $code -lt 400 ]
 then
 	echo "$code"
 	message="Redirection"
@@ -57,12 +58,13 @@ elif [ $code -ge 500 ] && [ $code -lt 600 ]
 then
 	echo "$code"
 	message="Server Error"
+	ruby EmailRubySender.rb $2 $code
 else
 	echo "There\'s something wrong"
 fi
 
 #opzione -v
-if [[ $2 = "-v" ]]
+if [[ $3 = "-v" ]]
 then
 	echo $message
 	#festival funziona tramite echo, ma non scrive il testo, lo legge solamente
