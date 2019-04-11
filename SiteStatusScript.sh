@@ -28,6 +28,7 @@ then
 	echo "$code"
 	message="Client abort"
 	ruby ~/SiteStatusScript/RubyScripts/EmailRubySender.rb $3 $code
+	echo "Warning, $1 is offline, AAAAAAAAAAAAAAAAAAAA" | festival --tts
 elif [[ $code -ge 100 ]] && [[ $code -lt 200 ]]
 then
         echo "$code"
@@ -49,6 +50,7 @@ then
 	echo "$code"
 	message="Server Error"
 	ruby ~/SiteStatusScript/RubyScripts/EmailRubySender.rb $3 $code
+	echo "Warning, $1 is offline, damn!" | festival --tts
 else
 	echo "There's something wrong"
 fi
