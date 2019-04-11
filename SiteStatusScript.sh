@@ -9,15 +9,10 @@ pattern_2="[a-zA-Z0-9]{1,}\.[a-z]{2,4}"
 pattern_ip="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
 message=""
 
-echo $1
-echo $2
-
 #verifica se ciò che ha ricevuto come parametro è valido
 if [[ $1 =~ $pattern_1 ]] || [[ $1 =~ $pattern_2 ]] || [[ $1 =~ $pattern_ip ]]
 then
-	echo "Il parametro è giusto"
-	code=$(curl -s -o /dev/null -w "%{http_code}" $1:$2)
-	echo "Il codice è $code"	
+	code=$(curl -s -o /dev/null -w "%{http_code}" $1:$2)	
 else
 	echo "Invalid url"
 fi
@@ -58,7 +53,7 @@ fi
 #opzione -v
 if [[ $4 = "-v" ]]
 then
-	echo $message
+	echo "Request ended with code $code: $message"
 	#festival funziona tramite echo, ma non scrive il testo, lo legge solamente
-	echo $message | festival --tts
+	echo "Request ended with code $code: $message" | festival --tts
 fi
